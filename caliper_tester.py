@@ -1,3 +1,5 @@
+# -*- coding: future_fstrings -*-
+
 """
  For this to work you need to first install the package at
   https://github.com/IMSGlobal/caliper-python
