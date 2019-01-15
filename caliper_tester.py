@@ -8,6 +8,7 @@
   - http://lti.tools/caliper/event?key=python-caliper 
 """
 
+from __future__ import unicode_literals
 import caliper
 import requests, json, sys
 
