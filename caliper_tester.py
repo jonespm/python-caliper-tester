@@ -23,12 +23,15 @@ from datetime import datetime
 
 is_openlrw = False
 lrw_server = "http://lti.tools"
+# Not needed for test server
+lrw_access = ""
 lrw_endpoint = f"{lrw_server}/caliper/event?key=python-caliper"
 
 # Get these from your LRW (if necessary)
 
 token = "python-caliper"
 
+# This is needed to get a token from the access point
 if (is_openlrw):
     auth_data = {'username':'a601fd34-9f86-49ad-81dd-2b83dbee522b', 'password':'e4dff262-1583-4974-8d21-bff043db34d5'}
     r = requests.post(f"{lrw_access}", json = auth_data, headers={'X-Requested-With': 'XMLHttpRequest'})
@@ -45,27 +48,19 @@ the_sensor = caliper.build_sensor_from_config(
         sensor_id = f"{lrw_server}/test_caliper",
         config_options = the_config )
 
-# Here, you will have caliper entity representations of the various
-# learning objects and entities in your wider system, and you provide
-# them into the constructor for the event that has just happened.
-#
-# Note that you don't have to pass an action into the constructor because
-# the NavigationEvent only supports one action, part of the
-# Caliper base profile: caliper.constants.BASE_PROFILE_ACTIONS['NAVIGATED_TO']
-#
-
 actor = caliper.entities.Person(id="test")
 organization = caliper.entities.Organization(id="test")
 edApp = caliper.entities.SoftwareApplication(id="test")
 resource = caliper.entities.DigitalResource(id="test")
 
-the_event = caliper.events.NavigationEvent(
+the_event = caliper.events.ViewEvent(
         actor = actor,
         edApp = edApp,
         group = organization,
         object = resource,
         eventTime = datetime.now().isoformat(),
-        action = "NavigatedTo"
+        # This is optional since it only supports one action but we'll pass it anyway
+        action = "Viewed"
          )
 
 # Once built, you can use your sensor to describe one or more often used
